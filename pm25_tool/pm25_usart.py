@@ -45,8 +45,13 @@ class UsartOperation(wx.BoxSizer):
     def OnClickSend(self, event):
         send_buf = self.send.GetValue()
         if len(send_buf) > 0:
-            send_buf += "\n"
-            self.panel.usart_output.AppendText(send_buf)
+            #print [int(i) for i in send_buf.split(" ")]
+            if self.panel.usart_handle != None and self.panel.usart_handle.isOpen():
+                try:
+                    self.panel.display_queue.put(1, [int(i, 16) for i in send_buf.split(" ")])
+                except ValueError:
+                    self.panel.display_queue.put(1, [int(i, 16) for i in send_buf.strip(" ").split(" ")])
+
 
     def OnClickClear(self, event):
         self.panel.usart_output.Clear()

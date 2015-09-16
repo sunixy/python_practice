@@ -10,6 +10,8 @@ class HKFrame(wx.Frame):
                 style=wx.DEFAULT_FRAME_STYLE, size=(820, 640))
         panel = wx.Panel(self, size=(820, 640))
         panel.SetBackgroundColour("Aquamarine")
+        icon = wx.Icon("resource\hk.ico", wx.BITMAP_TYPE_ICO)
+        self.SetIcon(icon)
         sizer = wx.BoxSizer(wx.VERTICAL)
         status = StatusSizer(panel)
         command = CommandSizer(panel)

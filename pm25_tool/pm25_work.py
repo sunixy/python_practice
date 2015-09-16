@@ -47,7 +47,7 @@ class DisplayQueue(threading.Thread):
                 continue
             if item.op == 1:
                 self.panel.usart_handle.write(item.msg)
-                self.panel.usart_output.SetStyle(0, -1, wx.TextAttr("green"))
+                self.panel.usart_output.SetStyle(0, -1, wx.TextAttr("purple"))
             elif item.op == 2:
                 self.panel.usart_output.SetStyle(0, -1, wx.TextAttr("blue"))
                 self.parse_receive(item.msg)

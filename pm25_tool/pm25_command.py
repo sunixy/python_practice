@@ -141,7 +141,8 @@ class GetCalibrateValue(wx.Button):
         self.SetFont(font)
         
     def OnClick(self, event):
-        GET_CALIBRATE_COMMAND[6] = check_sum(GET_CALIBRATE_COMMAND)
-        self.panel.display_queue.put(1, GET_CALIBRATE_COMMAND)
+        if self.panel.usart_handle != None and self.panel.usart_handle.isOpen():
+            GET_CALIBRATE_COMMAND[6] = check_sum(GET_CALIBRATE_COMMAND)
+            self.panel.display_queue.put(1, GET_CALIBRATE_COMMAND)
         
 
