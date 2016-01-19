@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 #-*-coding:utf-8-*- 
 import wx
+import os
 from pm25_status import StatusSizer
 from pm25_command import CommandSizer
 from pm25_usart import UsartSizer
@@ -10,7 +12,7 @@ class HKFrame(wx.Frame):
                 style=wx.DEFAULT_FRAME_STYLE, size=(820, 640))
         panel = wx.Panel(self, size=(820, 640))
         panel.SetBackgroundColour("Aquamarine")
-        icon = wx.Icon("resource\hk.ico", wx.BITMAP_TYPE_ICO)
+        icon = wx.Icon("resource"+os.sep+"hk.ico", wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
         sizer = wx.BoxSizer(wx.VERTICAL)
         status = StatusSizer(panel)

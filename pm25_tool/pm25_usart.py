@@ -1,7 +1,12 @@
 #-*-coding:utf-8-*- 
 import wx
 import serial
-from list_ports_windows import comports
+import os
+if os.name == "nt":
+    from list_ports_windows import comports
+if os.name == "posix":
+    from list_ports_posix import comports
+
 from pm25_work import DisplayQueue, UsartReceive
 
 class UsartSizer(wx.BoxSizer):
