@@ -24,6 +24,7 @@ class HKFrame(wx.Frame):
         self.SetMaxSize((820, 640))
         self.SetSizer(sizer)
         sizer.Fit(panel)
+        #self.Fit()
 
 
 

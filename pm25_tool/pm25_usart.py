@@ -12,15 +12,29 @@ from pm25_work import DisplayQueue, UsartReceive
 class UsartSizer(wx.BoxSizer):
     def __init__(self, panel):
         wx.BoxSizer.__init__(self, wx.HORIZONTAL)
-        panel.usart_output = wx.TextCtrl(panel, -1,
-                size=(500, 410), style=wx.TE_MULTILINE|wx.TE_READONLY|wx.TE_RICH2)
-        #panel.usart_output.SetDefaultStyle(wx.TextAttr("blue"))
         o = UsartOperation(panel)
+        text = UsartText(panel)
 
-        self.Add(panel.usart_output, 0, wx.ALIGN_LEFT|wx.ALL, 10)
+        self.Add(text, 0, wx.ALIGN_LEFT|wx.ALL, 10)
         self.Add(o, 0, wx.ALIGN_LEFT|wx.ALL) 
         self.Fit(panel)
 
+class UsartText(wx.BoxSizer):
+    def __init__(self, panel):
+        wx.BoxSizer.__init__(self, wx.VERTICAL)
+        self.panel = panel
+        panel.usart_output = wx.TextCtrl(panel, -1,
+                size=(500, 410), style=wx.TE_MULTILINE|wx.TE_READONLY|wx.TE_RICH2)
+        btn_clear = wx.Button(panel, -1, "Clear")
+        panel.Bind(wx.EVT_BUTTON, self.OnClickClear, btn_clear)
+        font = wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.BOLD)
+        btn_clear.SetFont(font)
+
+        self.Add(panel.usart_output, 0, wx.EXPAND|wx.ALL, 5)
+        self.Add(btn_clear, 0, wx.ALIGN_RIGHT|wx.ALL, 5)
+    
+    def OnClickClear(self, event):
+        self.panel.usart_output.Clear()
 
 class UsartOperation(wx.BoxSizer):
     def __init__(self, panel):
@@ -32,20 +46,16 @@ class UsartOperation(wx.BoxSizer):
         btn_send = wx.Button(panel, -1, "Send")
         panel.Bind(wx.EVT_BUTTON, self.OnClickSend, btn_send)
         open_usart = OpenUsart(panel)
-        btn_clear = wx.Button(panel, -1, "Clear")
-        panel.Bind(wx.EVT_BUTTON, self.OnClickClear, btn_clear)
 
 
         font = wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.BOLD)
         l.SetFont(font)
         self.send.SetFont(font)
         btn_send.SetFont(font)
-        btn_clear.SetFont(font)
         self.Add(l, 0, wx.ALIGN_LEFT|wx.ALL, 3)
         self.Add(self.send, 0, wx.ALIGN_LEFT|wx.ALL, 3)
         self.Add(btn_send, 0, wx.ALIGN_RIGHT|wx.ALL, 10)
         self.Add(open_usart, 0, wx.ALIGN_LEFT|wx.ALL, 3)
-        self.Add(btn_clear, 0, wx.TOP, 220)
 
     def OnClickSend(self, event):
         send_buf = self.send.GetValue()
@@ -57,9 +67,6 @@ class UsartOperation(wx.BoxSizer):
                 except ValueError:
                     self.panel.display_queue.put(1, [int(i, 16) for i in send_buf.strip(" ").split(" ")])
 
-
-    def OnClickClear(self, event):
-        self.panel.usart_output.Clear()
 
 
 class OpenUsart(wx.BoxSizer):
