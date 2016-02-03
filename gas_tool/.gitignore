@@ -1,0 +1,6 @@
+
+*.pyc
+*.bat
+*.swp
+build/
+dist/
